@@ -37,7 +37,20 @@ class Scanner:
             # input stream is easier.
             ch = self.read()
 
-            # TODO: Skip white space and comments
+            # HOPEFULLY: Skip white space and comments
+            loopBool = False
+            while(loopBool == False):
+                if(ch == ' ' or '\t' or '\r' or '\n'):
+                    return self.getNextToken()
+                elif(ch == ';'):
+                    commentLoop = False
+                    while(commentLoop == False):
+                        ch = self.peek()
+                        if(ch == '\r' or '\n'):
+                            commentLoop = True
+                            return self.getNextToken()
+                else:
+                    loopBool = True
 
             # Return None on EOF
             if ch == "":
@@ -74,6 +87,7 @@ class Scanner:
             elif ch == '"':
                 self.buf = []
                 # TODO: scan a string into the buffer variable buf
+                
     
                 return StrToken("".join(self.buf))
 
