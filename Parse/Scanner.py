@@ -29,6 +29,25 @@ class Scanner:
     def isDigit(ch):
         return ch >= '0' and ch <= '9'
 
+    def isLetter(ch):
+        return ch >= 'a' and ch<= 'z'
+
+    def isSpecialInitial(ch):
+        return ch == '!' or ch == '$' or ch == '%' or ch == '&' or ch == '*' or ch == '/' or ch == ':' or ch == '<' or ch == '=' or ch == '>' or ch == '?' or ch == '^' or ch == '_' or ch == '`'
+    
+    def isSpecialSub(ch):
+        return ch == '+' or ch == '-' or ch == '.' or ch == '@'
+
+    def isPeculiarIdentifier(ch):
+        return ch == '+' or ch == '-'
+
+    def isInitial(ch):
+        return isLetter(ch) or isSpecialInitial(ch)
+
+    def isSubsequent(ch):
+        return isInitial(ch) or isDigit(ch) or isSpecialSub(ch)
+
+
     def getNextToken(self):
         try:
             # It would be more efficient if we'd maintain our own
@@ -45,7 +64,7 @@ class Scanner:
                 elif(ch == ';'):
                     commentLoop = False
                     while(commentLoop == False):
-                        ch = self.peek()
+                        ch = self.read()
                         if(ch == '\r' or '\n'):
                             commentLoop = True
                             return self.getNextToken()
@@ -86,27 +105,49 @@ class Scanner:
             # String constants
             elif ch == '"':
                 self.buf = []
-                # TODO: scan a string into the buffer variable buf
-                
+                i = 0
+                # HOPEFULLY: scan a string into the buffer variable buf
+                stringLoop = False
+                while (stringLoop == False):
+                    if (ch != '"'):
+                        self.buf.append(ch)
+                        ch = self.read()
+                    else:
+                        stringLoop = True
     
                 return StrToken("".join(self.buf))
 
             # Integer constants
             elif self.isDigit(ch):
                 i = ord(ch) - ord('0')
-                # TODO: scan the number and convert it to an integer
+                # HOPEFULLY: scan the number and convert it to an integer
+                previous = 0
+                intLoop = False
+                while (intLoop == False):
+                    if (ch.isDigit()):
+                        previous = ((previous * 10) + i)                        
+                    else:
+                        intLoop == False
 
                 # make sure that the character following the integer
                 # is not removed from the input stream
-                return IntToken(i)
+                return IntToken(previous)
     
             # Identifiers
-            elif ch >= 'A' and ch <= 'Z':
-                # or ch is some other vaid first character
+            elif ((ch >= 'A' and ch <= 'Z') or isInitial(ch) or isPeculiarIdentifier(ch)):
+                # or ch is some other valid first character
                 # for an identifier
                 self.buf = []
-                # TODO: scan an identifier into the buffer variable buf
-
+                i = 0
+                if isInitial(ch):
+                    self.buf.append(ch)
+                    while(isSubsequent(ch)):
+                        self.buf.append(ch)
+                elif isPeculiarIdentifier(ch):
+                    self.buf.append(ch)
+                
+                # HOPEFULLY: scan an identifier into the buffer variable buf
+                
 
                 # make sure that the character following the identifier
                 # is not removed from the input stream
