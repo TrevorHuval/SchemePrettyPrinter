@@ -29,25 +29,6 @@ class Scanner:
     def isDigit(ch):
         return ch >= '0' and ch <= '9'
 
-    def isLetter(ch):
-        return ch >= 'a' and ch<= 'z'
-
-    def isSpecialInitial(ch):
-        return ch == '!' or ch == '$' or ch == '%' or ch == '&' or ch == '*' or ch == '/' or ch == ':' or ch == '<' or ch == '=' or ch == '>' or ch == '?' or ch == '^' or ch == '_' or ch == '`'
-    
-    def isSpecialSub(ch):
-        return ch == '+' or ch == '-' or ch == '.' or ch == '@'
-
-    def isPeculiarIdentifier(ch):
-        return ch == '+' or ch == '-'
-
-    def isInitial(ch):
-        return isLetter(ch) or isSpecialInitial(ch)
-
-    def isSubsequent(ch):
-        return isInitial(ch) or isDigit(ch) or isSpecialSub(ch)
-
-
     def getNextToken(self):
         try:
             # It would be more efficient if we'd maintain our own
@@ -56,20 +37,19 @@ class Scanner:
             # input stream is easier.
             ch = self.read()
 
-            # HOPEFULLY: Skip white space and comments
+            # TODO: Skip white space and comments
             loopBool = False
             while(loopBool == False):
-                if(ch == ' ' or '\t' or '\r' or '\n'):
-                    return self.getNextToken()
+                if(ch == ' ' or '\t' or '\n' or '\r'):
+                    return self.getNextToken
                 elif(ch == ';'):
-                    commentLoop = False
-                    while(commentLoop == False):
-                        ch = self.read()
-                        if(ch == '\r' or '\n'):
-                            commentLoop = True
-                            return self.getNextToken()
+                    
+                    
+                        
                 else:
                     loopBool = True
+
+
 
             # Return None on EOF
             if ch == "":
@@ -105,49 +85,26 @@ class Scanner:
             # String constants
             elif ch == '"':
                 self.buf = []
-                i = 0
-                # HOPEFULLY: scan a string into the buffer variable buf
-                stringLoop = False
-                while (stringLoop == False):
-                    if (ch != '"'):
-                        self.buf.append(ch)
-                        ch = self.read()
-                    else:
-                        stringLoop = True
+                # TODO: scan a string into the buffer variable buf
     
                 return StrToken("".join(self.buf))
 
             # Integer constants
             elif self.isDigit(ch):
                 i = ord(ch) - ord('0')
-                # HOPEFULLY: scan the number and convert it to an integer
-                previous = 0
-                intLoop = False
-                while (intLoop == False):
-                    if (ch.isDigit()):
-                        previous = ((previous * 10) + i)                        
-                    else:
-                        intLoop == False
+                # TODO: scan the number and convert it to an integer
 
                 # make sure that the character following the integer
                 # is not removed from the input stream
-                return IntToken(previous)
+                return IntToken(i)
     
             # Identifiers
-            elif ((ch >= 'A' and ch <= 'Z') or isInitial(ch) or isPeculiarIdentifier(ch)):
-                # or ch is some other valid first character
+            elif ch >= 'A' and ch <= 'Z':
+                # or ch is some other vaid first character
                 # for an identifier
                 self.buf = []
-                i = 0
-                if isInitial(ch):
-                    self.buf.append(ch)
-                    while(isSubsequent(ch)):
-                        self.buf.append(ch)
-                elif isPeculiarIdentifier(ch):
-                    self.buf.append(ch)
-                
-                # HOPEFULLY: scan an identifier into the buffer variable buf
-                
+                # TODO: scan an identifier into the buffer variable buf
+
 
                 # make sure that the character following the identifier
                 # is not removed from the input stream
