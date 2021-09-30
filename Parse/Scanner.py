@@ -32,7 +32,7 @@ class Scanner:
 
     @staticmethod
     def isLetter(ch):
-        return ch >= 'a' and ch <= 'z'
+        return (ch >= 'a' and ch <= 'z') or (ch >= 'A' and ch <= 'Z')
 
     @staticmethod
     def isSpecialInitial(ch):
@@ -49,12 +49,12 @@ class Scanner:
     @staticmethod
     def isInitial(ch):
         # return ch.isLetter() or ch.isSpecialInitial()
-        return (ch >= 'a' and ch <= 'z') or (ch == '!' or ch == '$' or ch == '%' or ch == '&' or ch == '*' or ch == '/' or ch == ':' or ch == '<' or ch == '=' or ch == '>' or ch == '?' or ch == '^' or ch == '_' or ch == '`')
+        return (ch >= 'a' and ch <= 'z') or (ch >= 'A' and ch <= 'Z') or (ch == '!' or ch == '$' or ch == '%' or ch == '&' or ch == '*' or ch == '/' or ch == ':' or ch == '<' or ch == '=' or ch == '>' or ch == '?' or ch == '^' or ch == '_' or ch == '`')
 
     @staticmethod
     def isSubsequent(ch):
         # return ch.isIntial() or ch.isDigit() or ch.specialSub()
-        return ((ch >= 'a' and ch <= 'z') or (ch == '!' or ch == '$' or ch == '%' or ch == '&' or ch == '*' or ch == '/' or ch == ':' or ch == '<' or ch == '=' or ch == '>' or ch == '?' or ch == '^' or ch == '_' or ch == '`')) or (ch >= '0' and ch <= '9') or (ch == '+' or ch == '-' or ch == '.' or ch == '@')
+        return ((ch >= 'a' and ch <= 'z') or (ch >= 'A' and ch <= 'Z') or (ch == '!' or ch == '$' or ch == '%' or ch == '&' or ch == '*' or ch == '/' or ch == ':' or ch == '<' or ch == '=' or ch == '>' or ch == '?' or ch == '^' or ch == '_' or ch == '`')) or (ch >= '0' and ch <= '9') or (ch == '+' or ch == '-' or ch == '.' or ch == '@')
 
     def getNextToken(self):
         try:
@@ -144,11 +144,11 @@ class Scanner:
                 return IntToken(curVal)
 
             # Identifiers
-            elif ((ch >= 'A' and ch <= 'Z') or self.isInitial(ch) or self.isPeculiarIdentifier(ch)):
+            elif (self.isInitial(ch) or self.isPeculiarIdentifier(ch)):
                 # or ch is some other valid first character
                 # for an identifier
                 self.buf = []
-
+                
                 if self.isInitial(ch):
                     self.buf.append(ch)
                     ch = self.read()

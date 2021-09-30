@@ -6,7 +6,7 @@ from Tokens import Token
 class IdentToken(Token):
     def __init__(self, s):
         super().__init__(TokenType.IDENT)
-        self.name = s
+        self.name = s.lower()
 
     def getName(self):
         return self.name

@@ -35,17 +35,49 @@
 
 import sys
 from Tokens import TokenType
+from Tree import BoolLit
+from Tree import StrLit
+from Tree import IntLit
+from Tree import Ident
 
 class Parser:
     def __init__(self, s):
         self.scanner = s
 
+
+
     def parseExp(self):
         # TODO: write code for parsing an exp
+        tok = self.scanner.getNextToken()
+        return self.__parseExp(tok)
+
+    def __parseExp(self, tok):
+        if tok == None:
+            return None
+        elif tok.getType() == TokenType.LLPAREN:
+            self.parseRest(tok)
+        elif tok.getType() == TokenType.FALSE:
+            return BoolLit.getInstance(False)
+        elif tok.getType() == TokenType.TRUE:
+            return BoolLit.getInstance(True)
+        elif tok.getType() == TokenType.QUOTE:
+            self.parseExp(tok)
+        elif tok.getType() == TokenType.INT:
+            return IntLit(tok.getIntVal())
+        elif tok.getType() == TokenType.STR:
+            return StrLit(tok.getStrVal())
+        elif tok.getType() == TokenType.IDENT:
+            return Ident(tok.getName())
+
+
         return None
 
-    def parseRest(self):
+    def parseRest(self, tok):
         # TODO: write code for parsing a rest
+        if tok.getType() == TokenType.RPAREN:
+            return new Nil()
+        else:
+            
         return None
 
     # TODO: Add any additional methods you might need
