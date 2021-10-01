@@ -148,16 +148,18 @@ class Scanner:
                 # or ch is some other valid first character
                 # for an identifier
                 self.buf = []
-                
+
                 if self.isInitial(ch):
                     self.buf.append(ch)
-                    ch = self.read()
-                    while(self.isSubsequent(ch)):
-                        self.buf.append(ch)
-                        if(self.isSubsequent(self.peek())):
-                            ch = self.read()
-                        else:
-                            break
+                    if self.isSubsequent(self.peek()):
+                        ch = self.read()
+                        while(self.isSubsequent(ch)):
+                            self.buf.append(ch)
+                            if(self.isSubsequent(self.peek())):
+                                ch = self.read()
+                            else:
+                                break
+
                 elif self.isPeculiarIdentifier(ch):
                     self.buf.append(ch)
 

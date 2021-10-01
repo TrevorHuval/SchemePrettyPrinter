@@ -3,6 +3,7 @@
 import sys
 from abc import ABC, abstractmethod
 
+
 class Node(ABC):
     # The argument of print(int) is the number of characters to indent.
     # Every subclass of Node must implement print(int).
@@ -33,14 +34,19 @@ class Node(ABC):
     # TODO: implemented these in the appropriate subclasses to return true.
     def isBool(self):           # BoolLit
         return False
+
     def isNumber(self):         # IntLit
         return False
+
     def isString(self):         # StrLit
         return False
+
     def isSymbol(self):         # Ident
         return False
+
     def isNull(self):           # Nil
         return False
+
     def isPair(self):           # Cons
         return False
 
