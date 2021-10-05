@@ -3,6 +3,7 @@
 import sys
 from Tree import Node
 
+
 class StrLit(Node):
     def __init__(self, s):
         self.strVal = s
@@ -11,7 +12,11 @@ class StrLit(Node):
         # There got to be a more efficient way to print n spaces.
         for _ in range(n):
             sys.stdout.write(' ')
-        sys.stdout.write("\"" + self.strVal + "\"\n")
+        sys.stdout.write("\"" + self.strVal + "\"")
+
+    def isString(self):
+        return True
+
 
 if __name__ == "__main__":
     id = StrLit("foo")

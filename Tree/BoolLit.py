@@ -3,8 +3,9 @@
 import sys
 from Tree import Node
 
+
 class BoolLit(Node):
-    __trueInstance =  None
+    __trueInstance = None
     __falseInstance = None
 
     @staticmethod
@@ -39,6 +40,10 @@ class BoolLit(Node):
             sys.stdout.write("#t\n")
         else:
             sys.stdout.write("#f\n")
+
+    def isBool(self):
+        return True
+
 
 if __name__ == "__main__":
     b = BoolLit.getInstance(True)

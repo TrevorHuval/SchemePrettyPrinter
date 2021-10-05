@@ -3,6 +3,7 @@
 import sys
 from Tree import Node
 
+
 class Nil(Node):
     __instance = None
 
@@ -26,6 +27,10 @@ class Nil(Node):
             sys.stdout.write(")\n")
         else:
             sys.stdout.write("()\n")
+
+    def isNull(self):
+        return True
+
 
 if __name__ == "__main__":
     n = Nil.getInstance()

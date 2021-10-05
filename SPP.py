@@ -7,12 +7,12 @@ from Tokens import TokenType
 if __name__ == "__main__":
     # Create scanner that reads from standard input
     scanner = Scanner(sys.stdin)
-    
+
     if (len(sys.argv) > 2 or
-        (len(sys.argv) == 2 and sys.argv[1] != "-d")):
+            (len(sys.argv) == 2 and sys.argv[1] != "-d")):
         sys.stderr.write("Usage: python3 SPP.py [-d]\n")
         sys.exit(2)
-    
+
     # If command line option -d is provided, debug the scanner.
     if len(sys.argv) == 2 and sys.argv[1] == "-d":
         # sys.stdout.write("Scheme 4101> ")
