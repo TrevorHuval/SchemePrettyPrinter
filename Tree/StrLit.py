@@ -12,7 +12,9 @@ class StrLit(Node):
         # There got to be a more efficient way to print n spaces.
         for _ in range(n):
             sys.stdout.write(' ')
+            sys.stdout.flush()
         sys.stdout.write("\"" + self.strVal + "\"")
+        sys.stdout.flush()
 
     def isString(self):
         return True

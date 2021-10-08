@@ -11,7 +11,10 @@ class Set(Special):
 
     def print(self, t, n, p):
         # TODO: Implement this function.
+        for _ in range(n):
+            sys.stdout.write(' ')
+
         sys.stdout.write("(set! ")
-        t.cdr.print(0, True)
+        t.getCdr().print(0, True)
 
         pass

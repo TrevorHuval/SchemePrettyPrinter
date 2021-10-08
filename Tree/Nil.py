@@ -24,7 +24,8 @@ class Nil(Node):
         for _ in range(n):
             sys.stdout.write(' ')
         if p:
-            sys.stdout.write(")\n")
+            sys.stdout.write(")")
+            sys.stdout.flush()
         else:
             sys.stdout.write("()\n")
 

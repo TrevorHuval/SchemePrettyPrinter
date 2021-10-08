@@ -11,6 +11,9 @@ class Define(Special):
 
     def print(self, t, n, p):
         # TODO: Implement this function.
+        for _ in range(n):
+            sys.stdout.write(' ')
+
         car = t.getCar()
         cdr = t.getCdr()
 
@@ -23,12 +26,12 @@ class Define(Special):
             sys.stdout.write("\n")
             cdr = cdr.getCdr()
             n = n + 4
-            while(cdr.isNull == False):
+            while(cdr.isNull() == False):
                 cdr.getCar().print(n, False)
                 sys.stdout.write("\n")
                 cdr = cdr.getCdr()
             sys.stdout.write(")")
         else:
             sys.stdout.write("(define ")
-            cdr.print(0, True)
+            t.getCdr().print(0, True)
         pass

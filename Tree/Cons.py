@@ -11,6 +11,7 @@ from Special.Set import Set
 from Special.Quote import Quote
 from Tree import Node
 from Tree import *
+import sys
 
 
 class Cons(Node):
@@ -34,12 +35,12 @@ class Cons(Node):
         self.form = None
 
         if self.car.isSymbol() == True:
-            # print(self.car.name)
-            if self.car.name == "quote":
+            selfName = self.car.getName()
+            if selfName == "quote" or selfName == "'":
                 self.form = Quote()
-            elif self.car.name == "lambda":
+            elif selfName == "lambda":
                 self.form = Lambda()
-            elif self.car.name == "begin":
+            elif selfName == "begin":
                 self.form = Begin()
             elif self.car.name == "if":
                 self.form = If()
@@ -59,11 +60,16 @@ class Cons(Node):
     def print(self, n, p=False):
         self.form.print(self, n, p)
 
+    # Helper function to return the car of the current token
     def getCar(self):
         return self.car
 
+    # Helper function to return the cdr of the current token
     def getCdr(self):
         return self.cdr
+
+    def isPair(self):
+        return True
 
 
 if __name__ == "__main__":

@@ -13,32 +13,28 @@ class Regular(Special):
     def print(self, t, n, p):
         # TODO: Implement this function.
 
-        # if p == False:
-        #    sys.stdout.write("(")
-        #
-        #t.car.print(n, p)
-        #sys.stdout.write(" ")
-        #t.cdr.print(n, True)
-        # pass
-
         car = t.getCar()
         cdr = t.getCdr()
+
+        for _ in range(n):
+            sys.stdout.write(' ')
 
         if p == False:
             sys.stdout.write("(")
 
-        if(car.isPair):
+        if(car.isPair()):
             car.print(0, False)
-            sys.stdout.write(" ")
         else:
             car.print(0, True)
 
-        if(cdr.isPair or cdr.isNull):
-            if cdr.isNull:
+        if(cdr.isPair() or cdr.isNull()):
+            if cdr.isNull():
                 cdr.print(0, True)
+
             else:
                 sys.stdout.write(" ")
                 cdr.print(0, True)
+
         else:
             sys.stdout.write(".")
             cdr.print(n, True)

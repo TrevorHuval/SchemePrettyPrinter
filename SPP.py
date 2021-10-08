@@ -42,4 +42,5 @@ if __name__ == "__main__":
         root = parser.parseExp()
         while root != None:
             root.print(0)
+            print()
             root = parser.parseExp()

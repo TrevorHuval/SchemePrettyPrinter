@@ -13,6 +13,7 @@ class IntLit(Node):
         for _ in range(n):
             sys.stdout.write(' ')
         sys.stdout.write(str(self.intVal))
+        sys.stdout.flush()
 
     def isNumber(self):
         return True

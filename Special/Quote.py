@@ -11,8 +11,10 @@ class Quote(Special):
 
     def print(self, t, n, p):
         # TODO: Implement this function.
-        car = t.getCdr()
-        cdr = t.getCar()
+        for _ in range(n):
+            sys.stdout.write(' ')
+        car = t.getCar()
+        cdr = t.getCdr()
         car.print(0, True)
         cdr.print(0, False)
 

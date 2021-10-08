@@ -50,6 +50,9 @@ class Node(ABC):
     def isPair(self):           # Cons
         return False
 
+    def getName():
+        return None
+
     # TODO: Report an error in these default methods and implement them
     # in class Cons.  After setCar, a Cons cell needs to be `parsed' again
     # using parseList.

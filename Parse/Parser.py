@@ -33,13 +33,10 @@
 # parser discards the offending token (which probably was a DOT
 # or an RPAREN) and attempts to continue parsing with the next token.
 
-from Tokens.IdentToken import IdentToken
 from Tree import *
 from Tokens import *
 from Parse.Scanner import Scanner
 import sys
-from Tokens import TokenType
-from Tree import BoolLit
 
 
 class Parser:
@@ -55,20 +52,38 @@ class Parser:
 
         if tok.getType() == None:
             return None
+
         elif tok.getType() == TokenType.LPAREN:
-            return self.parseRest()
+            tempToken = Scanner.getNextToken(self.scanner)
+            if tempToken.getType() == TokenType.DOT:
+                sys.stdout.write("parse error: illegal dot \n")
+                return self.parseExp()
+            return self.__parseRest(tempToken)
+
         elif tok.getType() == TokenType.FALSE:
             return BoolLit.getInstance(False)
+
         elif tok.getType() == TokenType.TRUE:
             return BoolLit.getInstance(True)
+
         elif tok.getType() == TokenType.QUOTE:
-            return Cons(Ident("quote"), Cons(self.parseExp(), Nil.getInstance()))
+            return Cons(Ident("'"), self.parseExp())
+
         elif tok.getType() == TokenType.INT:
             return IntLit(IntToken.getIntVal(tok))
+
         elif tok.getType() == TokenType.STR:
             return StrLit(StrToken.getStrVal(tok))
+
         elif tok.getType() == TokenType.IDENT:
             return Ident(IdentToken.getName(tok))
+
+        elif tok.getType() == TokenType.RPAREN:
+            return self.parseExp()
+
+        elif tok.getType() == TokenType.DOT:
+            return self.parseExp()
+
         return None
 
     def parseRest(self):
@@ -77,25 +92,33 @@ class Parser:
         return self.__parseRest(tok)
 
     def __parseRest(self, tok):
-        # If current token is right paren
-        if Token.getType(tok) == None:
+
+        if tok == None:
             return None
-
-        elif Token.getType(tok) == TokenType.RPAREN:
+        if tok.getType() == TokenType.RPAREN:
             return Nil.getInstance()
-
-        # else, current token is an expression
-        elif Token.getType(tok) == TokenType.DOT:
-            return Cons(self.__parseExp(tok), self.parseExp())
-
+        tnext = Scanner.getNextToken(self.scanner)
+        if tok.getType() == TokenType.LPAREN:
+            if tnext == None:
+                return None
+            if tnext.getType() == TokenType.RPAREN:
+                return Cons(Nil.getInstance(), self.parseRest())
+            elif tnext.getType() == TokenType.DOT:
+                return self.parseExp()
+            else:
+                return Cons(Cons(self.__parseExp(tnext), self.parseRest()), self.parseRest())
+        elif tnext.getType() == TokenType.RPAREN:
+            return Cons(self.__parseExp(tok), Nil.getInstance())
+        elif tok.getType() == TokenType.DOT:
+            tempNode = self.__parseExp(tnext)
+            Scanner.getNextToken(self.scanner)
+            return tempNode
+        elif tnext.getType() == TokenType.DOT:
+            tempNode = Cons(self.__parseExp(tok), self.parseExp())
+            Scanner.getNextToken(self.scanner)
+            return tempNode
         else:
-            return Cons(self.__parseExp(tok), self.parseRest())
-        # else:
-        #    # If current token is a dot
-        #    if tok.getType() == TokenType.DOT:
-        #        return Cons(self.__parseExp(tok), self.parseExp())
-        #    else:
-        #        return Cons(self.__parseExp(tok), self.parseRest())
+            return Cons(self.__parseExp(tok), Cons(self.__parseExp(tnext), self.parseRest()))
 
     def __error(self, msg):
         sys.stderr.write("Parse error: " + msg + "\n")

@@ -79,11 +79,28 @@ class Scanner:
                 else:
                     loopBool = True
 
+            if ch == 'q':  # Special character (quote)
+                quoteTempScanner = self
+                chQ = ch
+                quoteTempScanner.buf = []
+                quoteLoop = False
+                quoteTempScanner.buf.append(chQ)
+                while (quoteLoop == False):
+                    if (quoteTempScanner.peek() != '('):
+                        chQ = quoteTempScanner.read()
+                        quoteTempScanner.buf.append(chQ)
+                    else:
+                        quoteLoop = True
+                quoteChecker = "".join(quoteTempScanner.buf)
+                if quoteChecker == "quote":
+                    return Token(TokenType.QUOTE)
+
             # Return None on EOF
             if ch == "":
                 return None
 
             # Special characters
+
             elif ch == '\'':
                 return Token(TokenType.QUOTE)
             elif ch == '(':
@@ -121,7 +138,6 @@ class Scanner:
                         self.buf.append(ch)
                     else:
                         stringLoop = True
-
                 return StrToken("".join(self.buf))
 
             # Integer constants

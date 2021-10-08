@@ -11,10 +11,23 @@ class If(Special):
 
     def print(self, t, n, p):
         # TODO: Implement this function.
-        if p == False:
-            sys.stdout.write("(")
+        for _ in range(n):
+            sys.stdout.write(' ')
 
-        t.car.print(1)
-        t.cdr.print(1, True)
-
+        car = t.getCar()
+        cdr = t.getCdr()
+        cddr = t.getCdr().getCdr()
+        sys.stdout.write("(")
+        car.print(0, True)
+        sys.stdout.write(" ")
+        cdr.getCar().print(0, False)
+        sys.stdout.write("\n")
+        while(cddr.isNull() == False):
+            if(cddr.getCar().isPair()):
+                cddr.getCar().print(n+4, False)
+            else:
+                cddr.getCar().print(n+4, True)
+            cddr = cddr.getCdr()
+            sys.stdout.write("\n")
+        cddr.print(n, True)
         pass

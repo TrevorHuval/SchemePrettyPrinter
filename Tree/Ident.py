@@ -12,10 +12,15 @@ class Ident(Node):
         # There got to be a more efficient way to print n spaces.
         for _ in range(n):
             sys.stdout.write(' ')
+            sys.stdout.flush()
         sys.stdout.write(self.name)
+        sys.stdout.flush()
 
     def isSymbol(self):
         return True
+
+    def getName(self):
+        return self.name
 
 
 if __name__ == "__main__":
