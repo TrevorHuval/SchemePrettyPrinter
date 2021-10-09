@@ -24,12 +24,8 @@ class Lambda(Special):
         cdr.getCar().print(0, False)
         sys.stdout.write("\n")
         while(cddr.isNull() == False):
-            cddr.getCar().print(n+4, True)
+            cddr.getCar().print(n+4, False)
             cddr = cddr.getCdr()
             sys.stdout.write("\n")
         cddr.print(n, True)
         pass
-
-#   (lambda (x y)
-#       (...)
-#   )
